@@ -5,22 +5,16 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"path"
 )
 
-func ReadShellFile() []string {
-	homepath, err := os.UserHomeDir()
+func ReadShellFile(shellFilePath string) []string {
+	file, err := os.Open(shellFilePath)
 
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
-
-	file, err := os.Open(path.Join(homepath, ".zshrc"))
 	if err != nil {
 		fmt.Println("open file error:", err)
 		os.Exit(1)
 	}
+
 	defer func(){
 		if err := file.Close(); err != nil {
 			fmt.Println("close file error:", err)

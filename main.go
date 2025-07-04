@@ -1,57 +1,46 @@
 package main
 
 import (
-	"fmt"
 	"os"
+	"path/filepath"
 	"shell-alias/commands"
+	"shell-alias/explorer"
 	"shell-alias/router"
 )
 
 /*
-	TODO create rc file if not exists
-	TODO dynamic shell rc file name
-	TODO pick only strings that starts with alias
-	TODO beaty list format
-	TODO write new alias to file
-	TODO save file with new alias
-	TODO update shell to alias became work (source ~/.zshrc)
-	TODO create command to add alias and update shell
-	TODO create command to view list of all user aliases
 	TODO create command to delete user alias and update shell
 	TODO create help command
-	TODO make github repo
-	TODO english comments
-	TODO know how to install this package on remote machine without installing go and cloning from github
 	TODO what if creating alias already exists (user can write Y to stdin)
+	TODO know how to install this package on remote machine without installing go and cloning from github
+	TODO add to ShellFilePath hint about flag to force shell file path (please create or specify)
+	TODO comment all functions and package itself
+	TODO placeholder no aliases yet
+	TODO resolve ~ in --path
 */
 
 var command string
+var parameters []string
+var forcedPath string
+var shellFilePath string
 
 func init() {
-	command = router.Command()
+	data := router.Command()
+	command, parameters, forcedPath = data.Cmd, data.Params, data.ForcedPath
+	shellFilePath, _ = filepath.Localize(forcedPath)
+
+	if len(forcedPath) == 0 {
+		shellFilePath = explorer.ShellFilePath()
+	}
 }
 
 func main() {
 	switch command {
 	case "list":
-		commands.List()
+		commands.List(shellFilePath)
+	case "add":
+		commands.Add(shellFilePath, parameters[0], parameters[1])
 	default:
-		fmt.Println(fmt.Errorf("unknown command %s", command))
 		os.Exit(1)
 	}
-
-	// readerWriter := bufio.NewReadWriter(bufio.NewReader(file), bufio.NewWriter(file))
-
-	// for {
-	// 	line, err := readerWriter.ReadString('\n')
-
-	// 	if err != nil {
-	// 		if err != io.EOF {
-	// 			fmt.Println("read file error:", err)
-	// 		}
-	// 		break
-	// 	}
-
-	// 	fmt.Println("line:", line)
-	// }
 }
