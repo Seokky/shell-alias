@@ -9,13 +9,13 @@ import (
 )
 
 /*
-	TODO print some text after delete alias
 	TODO create help command
 	TODO add to ShellFilePath hint about flag to force shell file path (please create or specify)
 	TODO comment all functions and package itself
 	TODO resolve ~ in --path
 	TODO check for race
 	TODO refactor dir structure for guides
+	TODO readme and adding to PATH
 */
 
 // TODO comment

@@ -79,4 +79,8 @@ func Delete(shellFilePath, name string) {
 	}
 
 	os.Rename(tempNewShellFilePath, shellFilePath)
+
+	fmt.Println("")
+	fmt.Printf("Alas \"%s\" successfully deleted from %s\n", name, shellFilePath)
+	fmt.Println("")
 }
