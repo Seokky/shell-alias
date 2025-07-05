@@ -2,7 +2,6 @@ package main
 
 import (
 	"os"
-	"path/filepath"
 	"shell-alias/commands"
 	"shell-alias/explorer"
 	"shell-alias/router"
@@ -10,11 +9,10 @@ import (
 
 /*
 	TODO create help command
-	TODO add to ShellFilePath hint about flag to force shell file path (please create or specify)
-	TODO comment all functions and package itself
 	TODO resolve ~ in --path
-	TODO check for race
 	TODO refactor dir structure for guides
+	TODO comment all functions and package itself
+	TODO check for race
 	TODO readme and adding to PATH
 */
 
@@ -31,11 +29,7 @@ var shellFilePath string
 func init() {
 	data := router.Command()
 	command, parameters, forcedPath = data.Cmd, data.Params, data.ForcedPath
-	shellFilePath, _ = filepath.Localize(forcedPath)
-
-	if len(forcedPath) == 0 {
-		shellFilePath = explorer.ShellFilePath()
-	}
+	shellFilePath = explorer.ShellFilePath(forcedPath)
 }
 
 // TODO comment

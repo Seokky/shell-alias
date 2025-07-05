@@ -13,7 +13,7 @@ import (
 func Add(shellFilePath, name, command string) {
 	if isAliasExists(shellFilePath, name) {
 		fmt.Println("")
-		fmt.Println("[ERROR] alias already exists!")
+		fmt.Println("  [ERROR] alias already exists!")
 		fmt.Println("")
 		os.Exit(1)
 	}
@@ -35,7 +35,7 @@ func Add(shellFilePath, name, command string) {
 	line := shared.BuildAliasLine(name, command)
 
 	fmt.Println("")
-	fmt.Println("Pasting into", shellFilePath)
+	fmt.Println("  Pasting into", shellFilePath)
 	fmt.Println("")
 
 	writer := bufio.NewWriter(file)
@@ -51,7 +51,7 @@ func Add(shellFilePath, name, command string) {
 		os.Exit(1)
 	}
 
-	fmt.Printf("Done! Run \"source %s\" to update env immediately!", shellFilePath)
+	fmt.Printf("  Done! Run \"source %s\" to update env immediately!", shellFilePath)
 	fmt.Println("")
 	fmt.Println("")
 }
