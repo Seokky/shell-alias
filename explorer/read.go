@@ -5,8 +5,10 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"strings"
 )
 
+// TODO comment
 func ReadShellFile(shellFilePath string) []string {
 	file, err := os.Open(shellFilePath)
 
@@ -28,15 +30,19 @@ func ReadShellFile(shellFilePath string) []string {
 	for {
 		line, err := reader.ReadString('\n')
 
-		if err != nil {
-			if err != io.EOF {
-				fmt.Println("read file error:", err)
-				os.Exit(1)
-			}
+		if (err != nil) && (err != io.EOF) {
+			fmt.Println("read file error:", err)
+			os.Exit(1)
 			break
 		}
 
-		lines = append(lines, line)
+		if len(strings.TrimSpace(line)) > 0 {
+			lines = append(lines, line)
+		}
+
+		if err == io.EOF {
+			break
+		}
 	}
 
 	return lines

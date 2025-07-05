@@ -12,6 +12,7 @@ type Info struct {
 	ForcedPath string
 }
 
+// TODO comment
 func Command() Info {
 	flag.Parse()
 
@@ -47,6 +48,20 @@ func Command() Info {
 		return Info{
 			Cmd: "add",
 			Params: []string{*name, *cmd},
+			ForcedPath: *path,
+		}
+	}
+
+	if args[0] == "delete" {
+		add := flag.NewFlagSet("delete", flag.ExitOnError)
+		name := add.String("name", "", "")
+		path := add.String("path", "", "")
+
+		add.Parse(flag.Args()[1:])
+
+		return Info{
+			Cmd: "delete",
+			Params: []string{*name},
 			ForcedPath: *path,
 		}
 	}

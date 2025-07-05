@@ -7,6 +7,7 @@ import (
 	"strings"
 )
 
+// TODO comment
 func ShellFilePath() string {
 	homepath, err := os.UserHomeDir()
 
@@ -93,6 +94,7 @@ func ShellFilePath() string {
 	return ""
 }
 
+// TODO comment
 func isValidShellFileName(name string) bool {
 	if strings.HasPrefix(name, ".") && strings.HasSuffix(name, "rc") {
 		return true
