@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-// TODO comment
+// Get all alines from .shellrc file
 func ReadShellFile(shellFilePath string) []string {
 	file, err := os.Open(shellFilePath)
 
@@ -17,7 +17,7 @@ func ReadShellFile(shellFilePath string) []string {
 		os.Exit(1)
 	}
 
-	defer func(){
+	defer func() {
 		if err := file.Close(); err != nil {
 			fmt.Println("close file error:", err)
 			os.Exit(1)
@@ -25,7 +25,7 @@ func ReadShellFile(shellFilePath string) []string {
 	}()
 
 	reader := bufio.NewReader(file)
-	lines := make([]string, 0, 10)
+	lines := []string{}
 
 	for {
 		line, err := reader.ReadString('\n')

@@ -2,39 +2,40 @@ package main
 
 import (
 	"os"
-	"shell-alias/commands"
-	"shell-alias/explorer"
-	"shell-alias/router"
+	"shell-alias/internal/commands"
+	"shell-alias/internal/explorer"
+	"shell-alias/internal/router"
 )
 
-/*
-	TODO create help command
-	TODO resolve ~ in --path
-	TODO refactor dir structure for guides
-	TODO comment all functions and package itself
-	TODO check for race
-	TODO readme and adding to PATH
-*/
-
-// TODO comment
+// Command to work with: "help" | "list" | "add" | "delete"
 var command string
-// TODO comment
+
+// Provided parameters values
+// Allowed params: --name, --command
+// See more in shell-alias/internal/router
 var parameters []string
-// TODO comment
+
+// Value from --path parameter
 var forcedPath string
-// TODO comment
+
+// .shellrc file path to work with
 var shellFilePath string
 
-// TODO comment
+/*
+	Parse current command with parameters and assign it to variables listed above;
+	calculate and initialize .shellrc file path to shellFilePath
+*/
 func init() {
-	data := router.Command()
-	command, parameters, forcedPath = data.Cmd, data.Params, data.ForcedPath
+	info := router.Command()
+	command, parameters, forcedPath = info.Cmd, info.Params, info.ForcedPath
 	shellFilePath = explorer.ShellFilePath(forcedPath)
 }
 
-// TODO comment
+// Call relevant command handler
 func main() {
 	switch command {
+	case "help":
+		commands.Help()
 	case "list":
 		commands.List(shellFilePath)
 	case "add":

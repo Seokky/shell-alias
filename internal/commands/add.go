@@ -4,12 +4,12 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"shell-alias/explorer"
-	"shell-alias/shared"
+	"shell-alias/internal/explorer"
+	"shell-alias/internal/shared"
 	"strings"
 )
 
-// TODO comment
+// Add new alias to .shellrc file
 func Add(shellFilePath, name, command string) {
 	if isAliasExists(shellFilePath, name) {
 		fmt.Println("")
@@ -25,18 +25,14 @@ func Add(shellFilePath, name, command string) {
 		os.Exit(1)
 	}
 
-	defer func(){
+	defer func() {
 		if err := file.Close(); err != nil {
 			fmt.Println("close file error:", err)
 			os.Exit(1)
 		}
 	}()
 
-	line := shared.BuildAliasLine(name, command)
-
-	fmt.Println("")
-	fmt.Println("  Pasting into", shellFilePath)
-	fmt.Println("")
+	line := shared.AliasToLine(name, command)
 
 	writer := bufio.NewWriter(file)
 	_, err = writer.WriteString("\n" + line + "\n")
@@ -51,19 +47,20 @@ func Add(shellFilePath, name, command string) {
 		os.Exit(1)
 	}
 
+	fmt.Println("")
 	fmt.Printf("  Done! Run \"source %s\" to update env immediately!", shellFilePath)
 	fmt.Println("")
 	fmt.Println("")
 }
 
-// TODO comment
+// Check if alias already exists
 func isAliasExists(shellFilePath, name string) bool {
 	lines := explorer.ReadShellFile(shellFilePath)
 
 	number := 1
 	for _, line := range lines {
 		if strings.HasPrefix(line, "alias") {
-			parsed := shared.ParseAliasFromLine(line)
+			parsed := shared.LineToAlias(line)
 
 			if parsed.Name == name {
 				return true

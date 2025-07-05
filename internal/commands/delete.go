@@ -5,18 +5,18 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"shell-alias/shared"
+	"shell-alias/internal/shared"
 	"strings"
 )
 
-// TODO comment
+// Delete alias by name from .shellrc file
 func Delete(shellFilePath, name string) {
 	curFile, err := os.Open(shellFilePath)
 	if err != nil {
 		fmt.Println("open file error:", err)
 		os.Exit(1)
 	}
-	defer func(){
+	defer func() {
 		if err := curFile.Close(); err != nil {
 			fmt.Println("close file error:", err)
 			os.Exit(1)
@@ -36,13 +36,12 @@ func Delete(shellFilePath, name string) {
 		fmt.Println("open new file error:", err)
 		os.Exit(1)
 	}
-	defer func(){
+	defer func() {
 		if err := newFile.Close(); err != nil {
 			fmt.Println("close file error:", err)
 			os.Exit(1)
 		}
 	}()
-
 
 	reader := bufio.NewReader(curFile)
 	writer := bufio.NewWriter(newFile)
@@ -57,9 +56,8 @@ func Delete(shellFilePath, name string) {
 			break
 		}
 
-
 		if strings.HasPrefix(line, "alias") {
-			parsed := shared.ParseAliasFromLine(line)
+			parsed := shared.LineToAlias(line)
 
 			if parsed.Name == name {
 				continue

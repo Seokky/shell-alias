@@ -3,11 +3,11 @@ package commands
 import (
 	"fmt"
 	"os"
-	"shell-alias/explorer"
+	"shell-alias/internal/explorer"
 	"strings"
 )
 
-// TODO comment
+// Print aliases user have in .shellrc file
 func List(shellFilePath string) {
 	lines := explorer.ReadShellFile(shellFilePath)
 
@@ -27,8 +27,7 @@ func List(shellFilePath string) {
 	number := 1
 	for _, line := range lines {
 		if strings.HasPrefix(line, "alias") {
-			fmt.Printf("    %d. ", number)
-			fmt.Print(printLine(line))
+			printLine(line, number)
 			number++
 		}
 	}
@@ -36,7 +35,8 @@ func List(shellFilePath string) {
 	fmt.Println("")
 }
 
-// TODO comment
-func printLine(line string) string {
-	return line[6:]
+// Print alias line with index
+func printLine(line string, number int) {
+	fmt.Printf("    %d. ", number)
+	fmt.Print(line[6:])
 }

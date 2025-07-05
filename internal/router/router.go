@@ -7,12 +7,12 @@ import (
 )
 
 type Info struct {
-	Cmd string
-	Params []string
+	Cmd        string
+	Params     []string
 	ForcedPath string
 }
 
-// TODO comment
+// Recognize command provided, parse parameneters and return Info{} initialized
 func Command() Info {
 	flag.Parse()
 
@@ -22,6 +22,7 @@ func Command() Info {
 		fmt.Println("")
 		fmt.Println("  Allowed commands:")
 		fmt.Println("")
+		fmt.Println("  0. shell-alias help")
 		fmt.Println("  1. shell-alias list")
 		fmt.Println("  2. shell-alias add --name='' --command=''")
 		fmt.Println("  3. shell-alias delete --name=''")
@@ -33,7 +34,6 @@ func Command() Info {
 		os.Exit(1)
 	}
 
-
 	if args[0] == "list" {
 		list := flag.NewFlagSet("list", flag.ExitOnError)
 		path := list.String("path", "", "[opt] Forced path of shellrc file")
@@ -41,9 +41,21 @@ func Command() Info {
 		list.Parse(flag.Args()[1:])
 
 		return Info{
-			Cmd: "list",
-			Params: []string{},
+			Cmd:        "list",
+			Params:     []string{},
 			ForcedPath: *path,
+		}
+	}
+
+	if args[0] == "help" {
+		list := flag.NewFlagSet("list", flag.ExitOnError)
+
+		list.Parse(flag.Args()[1:])
+
+		return Info{
+			Cmd:        "help",
+			Params:     []string{},
+			ForcedPath: "",
 		}
 	}
 
@@ -56,8 +68,8 @@ func Command() Info {
 		add.Parse(flag.Args()[1:])
 
 		return Info{
-			Cmd: "add",
-			Params: []string{*name, *cmd},
+			Cmd:        "add",
+			Params:     []string{*name, *cmd},
 			ForcedPath: *path,
 		}
 	}
@@ -70,8 +82,8 @@ func Command() Info {
 		add.Parse(flag.Args()[1:])
 
 		return Info{
-			Cmd: "delete",
-			Params: []string{*name},
+			Cmd:        "delete",
+			Params:     []string{*name},
 			ForcedPath: *path,
 		}
 	}

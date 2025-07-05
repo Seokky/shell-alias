@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-// TODO comment
+// Calculating .shellrc file path to work with
 func ShellFilePath(forcedPath string) string {
 	homepath, err := os.UserHomeDir()
 
@@ -22,7 +22,6 @@ func ShellFilePath(forcedPath string) string {
 		}
 		return forcedPath
 	}
-
 
 	entries, err := os.ReadDir(homepath)
 
@@ -59,7 +58,7 @@ func ShellFilePath(forcedPath string) string {
 	fmt.Println("  If you on MacOS, therefore you need .zshrc")
 	fmt.Println("")
 
-	UserInput:
+UserInput:
 
 	fmt.Print("  Please, specify file name like .bashrc. .zshrc demand on your shell environment: ")
 
@@ -109,7 +108,7 @@ func ShellFilePath(forcedPath string) string {
 	return ""
 }
 
-// TODO comment
+// Validating candidate to .shellrc file name
 func isValidShellFileName(name string) bool {
 	if strings.HasPrefix(name, ".") && strings.HasSuffix(name, "rc") {
 		return true
